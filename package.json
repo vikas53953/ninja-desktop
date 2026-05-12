@@ -1,0 +1,45 @@
+{
+  "name": "ninja-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NINJA desktop assistant Phase 1 for Windows.",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5187 && cross-env ELECTRON_RENDERER_URL=http://127.0.0.1:5187 electron .\"",
+    "build": "vite build",
+    "start": "electron .",
+    "test": "node --test tests/*.test.js",
+    "smoke:secrets": "node scripts/smoke-secrets.js",
+    "audit:high": "npm audit --audit-level=high"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "electron": "^42.0.1",
+    "electron-builder": "^26.8.1",
+    "lucide-react": "^0.468.0",
+    "postcss": "^8.4.49",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "^8.0.12",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.pylabmit.ninja",
+    "productName": "NINJA",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "services/**/*",
+      "assets/**/*",
+      "soul/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

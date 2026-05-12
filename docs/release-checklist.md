@@ -1,0 +1,17 @@
+# NINJA Release Checklist
+
+Gate: G8 Release Readiness
+Status: PARTIAL
+Date: 2026-05-13
+
+- [x] README is complete and accurate for the current scaffold.
+- [x] `.env.example` exists.
+- [x] `npm install` succeeds.
+- [x] `npm run build` succeeds.
+- [x] `npm test` succeeds.
+- [x] `npm audit --audit-level=high` has no unresolved high/critical findings.
+- [x] Known limitations are documented honestly.
+- [x] Windows desktop smoke completed with `npm start`.
+- [x] `npm run dev` smoke completed on port 5187.
+- [ ] Live GPT/Whisper/ElevenLabs verification completed with real keys.
+- [ ] Native Porcupine "Hey NINJA" verification completed.
