@@ -20,6 +20,7 @@ Status: IN PROGRESS
 - Electron production smoke with `npm start`: PASS, process stayed running for 10 seconds without main-process crash, then was stopped intentionally.
 - Full dev smoke with `npm run dev`: PASS, Vite served `http://127.0.0.1:5187`, `GET /` returned 200 with NINJA title, and the combined Vite/Electron process stayed running until intentionally stopped.
 - Startup entry behavior: implemented via Electron `app.setLoginItemSettings()` for packaged Windows builds, with tray enable/disable toggle. Dev mode intentionally reports `development_only` unless `NINJA_ALLOW_DEV_STARTUP=true`.
+- Ambient always-on-top behavior: Electron window config includes `frame:false`, `transparent:true`, `skipTaskbar:true`, and topmost enforcement via `setAlwaysOnTop(true, "screen-saver", 1)`, `setVisibleOnAllWorkspaces`, and `moveTop()` on create/mode changes/ambient blur. Manual app-switch visibility still needs a human desktop pass.
 
 ## 2026-05-13 Honest Limitations
 - GPT-4o, Whisper, and ElevenLabs calls are implemented but require valid `.env` keys for live provider verification.

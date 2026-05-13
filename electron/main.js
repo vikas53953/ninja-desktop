@@ -48,8 +48,18 @@ function applyMode(nextMode) {
   mode = nextMode;
   if (!mainWindow) return;
   mainWindow.setBounds(getBounds(nextMode), true);
-  mainWindow.setAlwaysOnTop(true, "screen-saver");
+  enforceTopMost();
   mainWindow.webContents.send("ninja:mode-changed", { mode, providerStatus: providerStatus() });
+}
+
+function enforceTopMost() {
+  if (!mainWindow) return;
+  mainWindow.setAlwaysOnTop(true, "screen-saver", 1);
+  mainWindow.setSkipTaskbar(true);
+  if (typeof mainWindow.setVisibleOnAllWorkspaces === "function") {
+    mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  }
+  mainWindow.moveTop();
 }
 
 function createWindow() {
@@ -79,6 +89,10 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+  mainWindow.on("blur", () => {
+    if (mode === "ambient") enforceTopMost();
+  });
+  enforceTopMost();
 }
 
 function registerIpc() {
