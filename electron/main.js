@@ -17,6 +17,7 @@ let mode = "ambient";
 let wakewordStatus = "disabled";
 let autonomousLoop;
 let startupStatus = "not_checked";
+let wakewordController;
 
 function providerStatus() {
   return {
@@ -166,8 +167,8 @@ app.whenReady().then(async () => {
     applyMode(mode === "active" ? "ambient" : "active");
   });
 
-  const wakeword = await startWakeWord(() => applyMode("active"));
-  wakewordStatus = wakeword.status;
+  wakewordController = await startWakeWord(() => applyMode("active"));
+  wakewordStatus = wakewordController.status;
   autonomousLoop = startAutonomousLoop({
     notify: (title, body) => {
       if (Notification.isSupported()) new Notification({ title, body }).show();
@@ -182,5 +183,6 @@ app.on("window-all-closed", (event) => {
 app.on("before-quit", () => {
   globalShortcut.unregisterAll();
   if (autonomousLoop && autonomousLoop.stop) autonomousLoop.stop();
+  if (wakewordController && wakewordController.stop) wakewordController.stop();
   if (tray) tray.destroy();
 });

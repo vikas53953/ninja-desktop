@@ -17,6 +17,7 @@ Then edit `.env` and add keys as available:
 - `OPENAI_API_KEY` for GPT-4o and Whisper
 - `ELEVEN_LABS_API_KEY` and `ELEVEN_LABS_VOICE_ID` for speech output
 - `PORCUPINE_ACCESS_KEY` for future wake-word activation
+- `NINJA_WAKEWORD_KEYWORD_PATH` for the Picovoice Console `.ppn` file for "Hey NINJA"
 
 ## Run
 ```powershell
@@ -45,5 +46,5 @@ NINJA creates and reads:
 
 ## Honest Limitations
 - If provider keys are missing, NINJA shows an honest fallback instead of fake GPT or voice output.
-- Porcupine wake-word startup is represented as an optional adapter in this milestone; always-on microphone streaming still needs the native binding and final device pass.
+- Porcupine wake-word startup uses the real Node binding when `PORCUPINE_ACCESS_KEY` is configured. For the exact phrase "Hey NINJA", add a Picovoice Console Windows `.ppn` file path in `NINJA_WAKEWORD_KEYWORD_PATH`; otherwise the built-in fallback keyword is `COMPUTER`.
 - Screenshot capture is stubbed with an honest limitation until the native desktop permission path is finished.
