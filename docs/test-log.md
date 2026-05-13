@@ -25,6 +25,7 @@ Status: IN PROGRESS
 - Voice pipeline verification: added `npm run smoke:voice` and `docs/voice-test-log.md`. Live latency PASS is blocked until local `.env` contains OpenAI/ElevenLabs keys and `NINJA_VOICE_TEST_AUDIO` points to a short audio sample.
 - Autonomous loop timezone: 7 AM IST is scheduled as 01:30 UTC, 10 PM IST CISSP quiz is scheduled as 16:30 UTC, and `NINJA_CRON_TEST=true` fires both notifications within test runtime.
 - Browser tool: Playwright added for `open_browser`; the tool opens an HTTP(S) URL headlessly, returns final URL, title, and body text preview. URL validation tests cover unsafe schemes. Installed Chromium with `npx playwright install chromium`; live smoke against `https://example.com` returned `ok: true`, title `Example Domain`, and non-empty text preview.
+- Memory update behavior: chat fallback and GPT-4o success paths both append a conversation note to `NINJA-BRAIN.md`; fallback test confirms honest missing-key response.
 
 ## 2026-05-13 Honest Limitations
 - GPT-4o, Whisper, and ElevenLabs calls are implemented but require valid `.env` keys for live provider verification.

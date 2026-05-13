@@ -1,6 +1,7 @@
 const { readMemory, appendMemory } = require("./memory");
 
 function missingOpenAiResponse(message) {
+  appendMemory(`Conversation fallback: Vikas asked "${message.slice(0, 160)}"; OpenAI key was missing.`);
   return {
     ok: true,
     reply:
@@ -42,7 +43,7 @@ async function askBrain(message) {
     const reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
     if (!reply) return { ok: false, error: "OpenAI returned an empty response." };
 
-    appendMemory(`Conversation: Vikas asked "${cleanMessage.slice(0, 160)}"; NINJA replied.`);
+    appendMemory(`Conversation: Vikas asked "${cleanMessage.slice(0, 160)}"; NINJA replied with GPT-4o.`);
     return { ok: true, reply, usedProvider: "openai" };
   } catch (_error) {
     return { ok: false, error: "NINJA could not reach OpenAI right now." };
@@ -50,4 +51,3 @@ async function askBrain(message) {
 }
 
 module.exports = { askBrain, missingOpenAiResponse };
-
