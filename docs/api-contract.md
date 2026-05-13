@@ -12,7 +12,7 @@ Response:
 {
   "mode": "ambient",
   "providerStatus": {
-    "openai": "missing_key",
+    "llm": "opencode_configured",
     "elevenLabs": "missing_key",
     "wakeword": "disabled"
   }
@@ -44,7 +44,8 @@ Response:
 {
   "ok": true,
   "reply": "Haan bhai...",
-  "usedProvider": "openai"
+  "usedProvider": "opencode",
+  "model": "kimi-k2.5"
 }
 ```
 
@@ -112,4 +113,3 @@ RED action response before approval:
   "confirmationId": "confirm_abc"
 }
 ```
-

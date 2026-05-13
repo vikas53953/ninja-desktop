@@ -73,11 +73,11 @@ Status: PARTIAL
 What was tested:
 - `services/voice.js` implements Whisper STT and ElevenLabs TTS wrappers.
 - Added `npm run smoke:voice`.
-- Current `npm run smoke:voice` reports OpenAI/ElevenLabs/audio sample are missing, so live latency is not claimed.
+- Current `npm run smoke:voice` reaches OpenCode and ElevenLabs, but skips Whisper because no STT key/audio sample is configured.
 
 Result:
-- Code path exists.
-- Final PASS requires valid `.env` keys, `ELEVEN_LABS_VOICE_ID`, and `NINJA_VOICE_TEST_AUDIO`.
+- LLM + TTS path exists and was live-tested.
+- Final PASS requires an STT provider key and `NINJA_VOICE_TEST_AUDIO` for voice input.
 
 ### 6. Ask NINJA a question by typing -> answers by voice + text
 Status: PARTIAL
@@ -88,15 +88,15 @@ What was tested:
 - TTS wrapper is wired but requires ElevenLabs keys.
 
 Result:
-- Text answer path is implemented with fallback.
-- Voice output final PASS requires ElevenLabs keys and live playback smoke.
+- Text answer path is implemented through OpenCode.
+- Voice output is live-tested through ElevenLabs, but final user-facing playback still needs visible desktop smoke.
 
 ### 7. NINJA reads NINJA-BRAIN.md and uses context in responses
 Status: PASS
 
 What was tested:
 - Memory tests verify default `SOUL.md` and `NINJA-BRAIN.md` creation/read.
-- `askBrain()` injects SOUL and brain memory into GPT-4o request when key exists.
+- `askBrain()` injects SOUL and brain memory into the configured LLM provider request when key exists.
 
 Result:
 - Memory read path is implemented.
@@ -105,12 +105,12 @@ Result:
 Status: PASS
 
 What was tested:
-- `missingOpenAiResponse()` now appends a fallback conversation note.
-- GPT-4o success path appends a GPT response note.
+- `missingLlmResponse()` now appends a fallback conversation note.
+- LLM success path appends a provider/model response note.
 - Tests confirm fallback behavior.
 
 Result:
-- Conversation memory update exists for both fallback and GPT paths.
+- Conversation memory update exists for both fallback and configured-LLM paths.
 
 ### 9. At 7:00 AM IST -> Windows notification "Bhai, your brief is ready"
 Status: PASS
@@ -157,7 +157,7 @@ SHIP WITH KNOWN ISSUES for development review.
 
 Do not claim final Phase 1 complete until these live/manual checks pass:
 - Picovoice access key plus Windows `.ppn` for exact "Hey NINJA".
-- OpenAI and ElevenLabs keys with voice latency log under 3000ms.
+- OpenCode/ElevenLabs/STT keys with voice latency log under 3000ms.
 - Packaged NSIS install plus Windows Startup tab verification.
 - Manual always-on-top and deep-work desktop smoke.
 ~~~
@@ -168,13 +168,14 @@ Do not claim final Phase 1 complete until these live/manual checks pass:
 # NINJA Voice Pipeline Test Log
 
 Date: 2026-05-13
-Status: BLOCKED FOR LIVE PASS
+Status: PARTIAL LIVE PASS
 
 ## Current Environment
 | Provider | Key Present | Result |
 |---|---:|---|
-| OpenAI GPT-4o / Whisper | No verified key in repo | Live test skipped |
-| ElevenLabs | No verified key in repo | Live test skipped |
+| OpenCode Go / Kimi K2.5 | Yes, in local `.env` only | Live LLM call succeeded |
+| OpenAI Whisper STT | No verified key in repo | Live STT skipped |
+| ElevenLabs | Yes, in local `.env` only | Live TTS call succeeded |
 | Audio sample | No `NINJA_VOICE_TEST_AUDIO` path configured | Whisper sample skipped |
 
 No secret values are stored in this repository. Add keys to local `.env` only.
@@ -187,12 +188,22 @@ npm run smoke:voice
 
 ## Pass Criteria
 - Whisper transcription returns `ok: true`.
-- GPT-4o response returns `ok: true`.
+- OpenCode Go/Kimi response returns `ok: true`.
 - ElevenLabs TTS returns `ok: true` with an audio data URL.
 - Total measured latency from end of speech to audio availability is under `3000ms`.
 
 ## Latest Result
-Live roundtrip is not claimed yet. The code path is wired, but the real pass requires local `.env` provider keys plus a short audio sample.
+Live OpenCode and ElevenLabs calls succeeded after wiring `LLM_PROVIDER=opencode`.
+
+Latest measured smoke:
+- LLM provider: `opencode`
+- Model: `kimi-k2.5`
+- OpenCode LLM latency: `8997ms`
+- ElevenLabs TTS latency: `838ms`
+- Measured LLM + TTS total: `9835ms`
+- Full voice roundtrip under 3000ms: `false`
+
+This is not a full voice-input pass because Whisper STT was skipped. A true full roundtrip still requires a short audio sample and a configured STT provider.
 ~~~
 
 ### 1.3 docs/ship-report.md
@@ -222,13 +233,13 @@ Framework: SHIP Autopilot v3.0 by pylabmit
 | G11 Post-Ship Review | PARTIAL | `docs/post-ship-review.md` pending |
 
 ## Honest Assessment
-Genuinely works: Electron/React scaffold, ambient/active/deep-work UI, tray/hotkey wiring, packaged Windows startup registration code with tray toggle, memory files, NINJA-LOG tool execution logging, GPT/voice wrappers, Playwright-backed `open_browser` with live Example Domain smoke, tool registry, conscience layer, 7 AM IST morning scheduler, 10 PM IST CISSP scheduler, tests, build, secret smoke, audit, renderer smoke, Electron start smoke, and `npm run dev` smoke on port 5187.
+Genuinely works: Electron/React scaffold, ambient/active/deep-work UI, tray/hotkey wiring, packaged Windows startup registration code with tray toggle, memory files, NINJA-LOG tool execution logging, OpenCode Go/Kimi K2.5 brain, ElevenLabs TTS wrapper with live smoke, Playwright-backed `open_browser` with live Example Domain smoke, tool registry, conscience layer, 7 AM IST morning scheduler, 10 PM IST CISSP scheduler, tests, build, secret smoke, audit, renderer smoke, Electron start smoke, and `npm run dev` smoke on port 5187.
 
-Mock/fallback: GPT-4o, Whisper, and ElevenLabs return honest missing-key/provider errors until `.env` has valid keys. Wake word uses real Porcupine wiring when configured, but exact "Hey NINJA" needs a Picovoice Console Windows `.ppn`; otherwise the built-in fallback keyword is `COMPUTER`.
+Mock/fallback: OpenCode is now the configured brain provider through local `.env`. Whisper STT still returns honest missing-key/provider errors until an STT key and audio sample are configured. Wake word uses real Porcupine wiring when configured, but exact "Hey NINJA" needs a Picovoice Console Windows `.ppn`; otherwise the built-in fallback keyword is `COMPUTER`.
 
-Needs fixing: live provider-key voice verification via `npm run smoke:voice`, manual always-on-top desktop app-switch smoke, visible Alt+N/manual desktop smoke, and native Porcupine "Hey NINJA" `.ppn` verification.
+Needs fixing: full voice-input roundtrip verification with STT audio sample, manual always-on-top desktop app-switch smoke, visible Alt+N/manual desktop smoke, and native Porcupine "Hey NINJA" `.ppn` verification.
 
-API status: OpenAI/ElevenLabs/Brave/Bing not live-verified because no API keys were provided in this repo.
+API status: OpenCode Go and ElevenLabs were live-verified from local `.env`. OpenAI Whisper STT, Brave, and Bing are not live-verified.
 
 ## Ship Decision
 SHIP WITH KNOWN ISSUES for development review. DO NOT claim final Phase 1 complete until provider keys, exact Porcupine `.ppn`, packaged startup, and manual desktop smoke are verified.
@@ -260,16 +271,16 @@ The feedback was checked against the local repo before implementation. One findi
 | One commit per component | Improved going forward | v3 pass was committed as separate fix commits. Original root commit remains historical. |
 
 ## Verification
-- `npm test`: 20 tests passing.
+- `npm test`: 21 tests passing.
 - `npm run build`: passing.
 - `npm run smoke:secrets`: passing.
-- `npm run smoke:voice`: runs and reports blocked live providers honestly.
+- `npm run smoke:voice`: OpenCode and ElevenLabs succeed; Whisper STT remains skipped without audio/STT config.
 - `npm audit --audit-level=high`: 0 vulnerabilities.
 - `open_browser` live smoke: `https://example.com` returned title `Example Domain`.
 
 ## Remaining External Requirements
 - Picovoice `.ppn` keyword file for the exact phrase "Hey NINJA".
-- Real OpenAI and ElevenLabs keys for live voice pipeline latency.
+- STT provider key and audio sample for full voice-input pipeline latency.
 - Packaged installer smoke on Windows Startup tab.
 - Manual desktop visibility smoke.
 ~~~
@@ -287,7 +298,8 @@ The feedback was checked against the local repo before implementation. One findi
 ✔ 7 AM IST maps to 01:30 UTC (0.2476ms)
 ✔ 10 PM IST maps to 16:30 UTC (0.2131ms)
 ✔ cron test mode fires both notifications (719.1388ms)
-✔ missing OpenAI fallback returns honest provider status (4.8029ms)
+✔ missing LLM fallback returns honest provider status (4.8029ms)
+✔ OpenCode provider config appends chat completions endpoint (0.418ms)
 ✔ browser tool accepts http and https URLs (1.2443ms)
 ✔ browser tool rejects non-http URLs (1.107ms)
 ✔ GREEN tools execute immediately (2.9891ms)
@@ -303,9 +315,9 @@ The feedback was checked against the local repo before implementation. One findi
 ✔ tool log redacts sensitive parameter keys (0.2654ms)
 ✔ tool log trims old entries (1.8445ms)
 ✔ wake word disables cleanly when Picovoice key is missing (0.9759ms)
-ℹ tests 20
+ℹ tests 21
 ℹ suites 0
-ℹ pass 20
+ℹ pass 21
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
@@ -331,9 +343,11 @@ Secret smoke passed: renderer source is clean.
 > node scripts/voice-pipeline-smoke.js
 
 {
-  "testedAt": "2026-05-13T04:31:03.978Z",
+  "testedAt": "2026-05-13T05:38:02.196Z",
+  "llmProvider": "opencode",
+  "opencodeKeyPresent": true,
   "openaiKeyPresent": false,
-  "elevenLabsKeyPresent": false,
+  "elevenLabsKeyPresent": true,
   "audioSamplePresent": false,
   "steps": [
     {
@@ -342,17 +356,26 @@ Secret smoke passed: renderer source is clean.
       "reason": "Set NINJA_VOICE_TEST_AUDIO to a short audio file."
     },
     {
-      "label": "gpt-4o",
-      "skipped": true,
-      "reason": "OPENAI_API_KEY is missing."
+      "label": "llm",
+      "durationMs": 8997,
+      "result": {
+        "ok": true,
+        "reply": "Voice smoke cleared and green, bhai.",
+        "usedProvider": "opencode",
+        "model": "kimi-k2.5"
+      }
     },
     {
       "label": "elevenlabs",
-      "skipped": true,
-      "reason": "ElevenLabs key or voice id is missing."
+      "durationMs": 838,
+      "result": {
+        "ok": true,
+        "audioDataUrlPresent": true,
+        "audioBytesApprox": 34334
+      }
     }
   ],
-  "totalMeasuredMs": 0,
+  "totalMeasuredMs": 9835,
   "passUnder3000ms": false
 }
 ~~~
@@ -366,6 +389,6 @@ found 0 vulnerabilities
 ## 3. Final Readout
 
 - Acceptance test status: 5 PASS, 6 PARTIAL, 0 FAIL.
-- Voice latency: no real latency number yet. `smoke:voice` reports `totalMeasuredMs: 0` because OpenAI key, ElevenLabs key, and audio sample are not configured in this repo environment.
+- Voice latency: OpenCode + ElevenLabs live smoke measured `totalMeasuredMs: 9835`; full voice-input roundtrip is still not PASS because Whisper STT/audio sample is skipped and the target is under 3000ms.
 - SHIP decision: SHIP WITH KNOWN ISSUES for development review.
 - README update: `Honest Limitations` was replaced with `Phase 1 Current Status`.

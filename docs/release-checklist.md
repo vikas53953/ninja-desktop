@@ -15,7 +15,9 @@ Date: 2026-05-13
 - [x] `npm run dev` smoke completed on port 5187.
 - [x] Claude gap analysis response documented.
 - [x] Acceptance test document covers all 11 Phase 1 criteria.
-- [ ] Live GPT/Whisper/ElevenLabs verification completed with real keys.
+- [x] Live OpenCode Go brain verification completed with real key from local `.env`.
+- [x] Live ElevenLabs TTS verification completed with real key from local `.env`.
+- [ ] Live Whisper/STT verification completed with real audio sample.
 - [ ] Native Porcupine "Hey NINJA" verification completed.
 - [ ] Packaged installer startup verification completed.
 - [ ] Manual always-on-top desktop verification completed.

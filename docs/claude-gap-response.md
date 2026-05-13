@@ -21,15 +21,15 @@ The feedback was checked against the local repo before implementation. One findi
 | One commit per component | Improved going forward | v3 pass was committed as separate fix commits. Original root commit remains historical. |
 
 ## Verification
-- `npm test`: 20 tests passing.
+- `npm test`: 21 tests passing.
 - `npm run build`: passing.
 - `npm run smoke:secrets`: passing.
-- `npm run smoke:voice`: runs and reports blocked live providers honestly.
+- `npm run smoke:voice`: OpenCode and ElevenLabs succeed; Whisper STT remains skipped without audio/STT config.
 - `npm audit --audit-level=high`: 0 vulnerabilities.
 - `open_browser` live smoke: `https://example.com` returned title `Example Domain`.
 
 ## Remaining External Requirements
 - Picovoice `.ppn` keyword file for the exact phrase "Hey NINJA".
-- Real OpenAI and ElevenLabs keys for live voice pipeline latency.
+- STT provider key and audio sample for full voice-input pipeline latency.
 - Packaged installer smoke on Windows Startup tab.
 - Manual desktop visibility smoke.

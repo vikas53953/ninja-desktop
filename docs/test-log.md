@@ -22,12 +22,12 @@ Status: IN PROGRESS
 - Startup entry behavior: implemented via Electron `app.setLoginItemSettings()` for packaged Windows builds, with tray enable/disable toggle. Dev mode intentionally reports `development_only` unless `NINJA_ALLOW_DEV_STARTUP=true`.
 - Ambient always-on-top behavior: Electron window config includes `frame:false`, `transparent:true`, `skipTaskbar:true`, and topmost enforcement via `setAlwaysOnTop(true, "screen-saver", 1)`, `setVisibleOnAllWorkspaces`, and `moveTop()` on create/mode changes/ambient blur. Manual app-switch visibility still needs a human desktop pass.
 - NINJA-LOG behavior: every `executeTool()` result appends a redacted entry to `%USERPROFILE%\.ninja\NINJA-LOG.md` with tool name, params, result summary, and duration; tests cover append, redaction, and 500-entry trimming.
-- Voice pipeline verification: added `npm run smoke:voice` and `docs/voice-test-log.md`. Live latency PASS is blocked until local `.env` contains OpenAI/ElevenLabs keys and `NINJA_VOICE_TEST_AUDIO` points to a short audio sample.
+- Voice pipeline verification: added `npm run smoke:voice` and `docs/voice-test-log.md`. OpenCode Go and ElevenLabs pass live smoke from local `.env`; full STT voice-input latency is blocked until `NINJA_VOICE_TEST_AUDIO` points to a short audio sample and an STT key is configured.
 - Autonomous loop timezone: 7 AM IST is scheduled as 01:30 UTC, 10 PM IST CISSP quiz is scheduled as 16:30 UTC, and `NINJA_CRON_TEST=true` fires both notifications within test runtime.
 - Browser tool: Playwright added for `open_browser`; the tool opens an HTTP(S) URL headlessly, returns final URL, title, and body text preview. URL validation tests cover unsafe schemes. Installed Chromium with `npx playwright install chromium`; live smoke against `https://example.com` returned `ok: true`, title `Example Domain`, and non-empty text preview.
-- Memory update behavior: chat fallback and GPT-4o success paths both append a conversation note to `NINJA-BRAIN.md`; fallback test confirms honest missing-key response.
+- Memory update behavior: chat fallback and configured-LLM success paths both append a conversation note to `NINJA-BRAIN.md`; fallback test confirms honest missing-key response.
 
 ## 2026-05-13 Honest Limitations
-- GPT-4o, Whisper, and ElevenLabs calls are implemented but require valid `.env` keys for live provider verification.
+- OpenCode Go brain, Whisper, and ElevenLabs calls are implemented. OpenCode Go and ElevenLabs have now been live-smoked from the local `.env`; Whisper still needs a real `OPENAI_API_KEY` and `NINJA_VOICE_TEST_AUDIO` sample for full voice-input verification.
 - Wake-word service uses `@picovoice/porcupine-node` plus `@picovoice/pvrecorder-node` when configured. Exact "Hey NINJA" detection still requires a Picovoice Console Windows `.ppn` keyword file via `NINJA_WAKEWORD_KEYWORD_PATH`; without it, the fallback built-in keyword is `COMPUTER`.
 - Screenshot tool uses Electron `desktopCapturer` and saves PNG files to `%USERPROFILE%\.ninja\screenshots`.

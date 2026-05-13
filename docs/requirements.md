@@ -10,7 +10,7 @@ Date: 2026-05-13
 3. Alt+N toggles between ambient widget and active panel.
 4. Active panel supports typed messages and displays chat history.
 5. Mic button records voice input and sends audio to Whisper when `OPENAI_API_KEY` is configured.
-6. GPT brain loads `~/.ninja/SOUL.md` and `~/.ninja/NINJA-BRAIN.md` before responding.
+6. LLM brain loads `~/.ninja/SOUL.md` and `~/.ninja/NINJA-BRAIN.md` before responding, using OpenCode Go by default when `OPENCODE_API_KEY` is configured.
 7. ElevenLabs TTS speaks NINJA responses when `ELEVEN_LABS_API_KEY` and `ELEVEN_LABS_VOICE_ID` are configured.
 8. Core tools exist for memory, web search, file read/write, notification, screenshot stub, browser-open stub, shell command, and speak.
 9. Conscience layer allows GREEN actions, executes YELLOW actions with notification, and blocks RED actions until confirmation.
@@ -28,7 +28,7 @@ Date: 2026-05-13
 ## Acceptance Criteria
 - Ambient widget: done when `npm run dev` opens a frameless widget with NINJA label and animated avatar.
 - Hotkey: done when `Alt+N` toggles app mode through Electron `globalShortcut`.
-- Chat: done when typed message produces either a real GPT response or an honest missing-key fallback.
+- Chat: done when typed message produces either a real configured-LLM response or an honest missing-key fallback.
 - Voice: done when mic recording can send audio to the main process and Whisper is called when a key exists.
 - Memory: done when `~/.ninja/SOUL.md` and `~/.ninja/NINJA-BRAIN.md` are created if missing and read during chat.
 - Conscience: done when `run_shell_command` returns a confirmation-required result until explicitly allowed.
@@ -38,7 +38,7 @@ Date: 2026-05-13
 - Missing `.env`: app starts with honest provider-disabled states.
 - Missing microphone permission: renderer shows a friendly recording error.
 - Empty text message: send button does nothing and no blank chat item is added.
-- GPT request failure: chat shows a friendly error without stack traces.
+- LLM request failure: chat shows a friendly error without stack traces.
 - Memory file missing: default file is created.
 - RED action requested by a tool: execution is blocked pending confirmation.
 
@@ -46,4 +46,3 @@ Date: 2026-05-13
 - Text chat: "What can you do?", "Bhai summarize my morning", "Use my memory to greet me".
 - Tool requests: read memory, send notification, blocked shell command.
 - Deep work tasks: "Draft RCA", "Research BTC movement", "Prepare CISSP quiz".
-

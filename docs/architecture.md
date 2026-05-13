@@ -11,7 +11,7 @@ Date: 2026-05-13
 | Renderer | React 18 + Vite | Fast local UI development |
 | Styling | Tailwind CSS | Matches spec and quick desktop UI iteration |
 | Icons | lucide-react | SHIP rule: icons, no Unicode symbol buttons |
-| Brain | OpenAI Chat Completions using `gpt-4o` | Spec-required brain model |
+| Brain | OpenCode Go chat completions using `kimi-k2.5` | User-selected Phase 1 brain provider |
 | STT | OpenAI Whisper API | Spec-required voice input |
 | TTS | ElevenLabs API | Spec-required Vikas voice output |
 | Wake word | Optional Porcupine adapter | Loaded only when dependency/key exists |
@@ -86,7 +86,6 @@ Local Windows 11 desktop. Development runs through Vite plus Electron. Productio
 
 ## Architecture Risks
 - Porcupine native bindings may need extra Windows build dependencies.
-- Real voice flow requires valid OpenAI and ElevenLabs keys.
+- Real full voice flow requires valid OpenCode, STT, and ElevenLabs keys plus an audio sample.
 - Browser/system screenshot tooling may need additional OS permissions.
 - A single Electron process means provider calls must never block UI state updates.
-

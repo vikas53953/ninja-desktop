@@ -20,8 +20,11 @@ let startupStatus = "not_checked";
 let wakewordController;
 
 function providerStatus() {
+  const llmProvider = process.env.LLM_PROVIDER || (process.env.OPENCODE_API_KEY ? "opencode" : "openai");
   return {
-    openai: process.env.OPENAI_API_KEY ? "configured" : "missing_key",
+    llm: llmProvider === "opencode"
+      ? process.env.OPENCODE_API_KEY ? "opencode_configured" : "opencode_missing_key"
+      : process.env.OPENAI_API_KEY ? "openai_configured" : "openai_missing_key",
     elevenLabs:
       process.env.ELEVEN_LABS_API_KEY && process.env.ELEVEN_LABS_VOICE_ID ? "configured" : "missing_key",
     wakeword: wakewordStatus,

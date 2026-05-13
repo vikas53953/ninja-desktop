@@ -40,8 +40,8 @@ export default function App() {
     if (busy) return "thinking";
     if (avatarState === "listening") return "listening";
     if (avatarState === "speaking") return "speaking";
-    return providerStatus.openai === "configured" ? "ready" : "setup needed";
-  }, [avatarState, busy, providerStatus.openai]);
+    return providerStatus.llm && providerStatus.llm.includes("configured") ? "ready" : "setup needed";
+  }, [avatarState, busy, providerStatus.llm]);
 
   async function changeMode(nextMode) {
     const result = await window.ninja.setMode(nextMode);

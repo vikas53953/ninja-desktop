@@ -1,6 +1,6 @@
 # NINJA Desktop
 
-NINJA is a Windows 11 Electron desktop assistant for Vikas. Phase 1 includes the ambient widget, active chat panel, tray, Alt+N hotkey, memory files, GPT/Whisper/ElevenLabs plumbing, tool registry, conscience layer, morning notification scheduler, and deep-work UI.
+NINJA is a Windows 11 Electron desktop assistant for Vikas. Phase 1 includes the ambient widget, active chat panel, tray, Alt+N hotkey, memory files, OpenCode/Whisper/ElevenLabs plumbing, tool registry, conscience layer, morning notification scheduler, and deep-work UI.
 
 ## Prerequisites
 - Node.js 20+ LTS or newer
@@ -14,7 +14,8 @@ Copy-Item .env.example .env
 ```
 
 Then edit `.env` and add keys as available:
-- `OPENAI_API_KEY` for GPT-4o and Whisper
+- `LLM_PROVIDER=opencode`, `OPENCODE_API_KEY`, `OPENCODE_MODEL=kimi-k2.5`, and `OPENCODE_BASE_URL=https://opencode.ai/zen/go/v1` for the brain
+- `OPENAI_API_KEY` only if you want Whisper voice transcription through OpenAI
 - `ELEVEN_LABS_API_KEY` and `ELEVEN_LABS_VOICE_ID` for speech output
 - `PORCUPINE_ACCESS_KEY` for future wake-word activation
 - `NINJA_WAKEWORD_KEYWORD_PATH` for the Picovoice Console `.ppn` file for "Hey NINJA"
@@ -60,9 +61,9 @@ npx playwright install chromium
 | Ambient widget | Built with topmost enforcement; final pass still needs manual desktop app-switch verification. |
 | Alt+N hotkey | Wired through Electron `globalShortcut`. |
 | Wake word | Real Porcupine/PvRecorder runtime is wired. Exact "Hey NINJA" requires a Picovoice Windows `.ppn` file in `NINJA_WAKEWORD_KEYWORD_PATH`; fallback keyword is `COMPUTER`. |
-| Voice input | Whisper wrapper is wired; live pass requires `OPENAI_API_KEY` and an audio sample for `npm run smoke:voice`. |
-| Voice output | ElevenLabs wrapper is wired; live playback requires `ELEVEN_LABS_API_KEY` and `ELEVEN_LABS_VOICE_ID`. |
-| GPT-4o brain | Wired through OpenAI when `OPENAI_API_KEY` exists; otherwise returns an honest missing-key fallback. |
+| Voice input | Whisper wrapper is wired; full voice-input pass requires an STT provider key and an audio sample for `npm run smoke:voice`. |
+| Voice output | ElevenLabs wrapper is wired and live-smoked from local `.env`; desktop playback still needs manual app smoke. |
+| Brain | Wired through OpenCode Go by default using `kimi-k2.5`; OpenAI remains optional fallback code only. |
 | Memory | Reads and updates `%USERPROFILE%\.ninja\NINJA-BRAIN.md`. |
 | Tool registry | Includes memory, web search, browser, file read/write, shell command guard, notifications, screenshot, and speak. |
 | Screenshot tool | Uses Electron `desktopCapturer` and saves PNG files under `%USERPROFILE%\.ninja\screenshots`. |

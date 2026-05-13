@@ -16,7 +16,7 @@ Date: 2026-05-13
 
 ## Known Defects / Limits
 - Wake-word native streaming is not fully verified.
-- Real GPT, Whisper, and ElevenLabs calls need `.env` keys.
+- OpenCode Go and ElevenLabs calls are live-smoked from local `.env`; Whisper STT still needs an audio sample and STT key.
 - Visual desktop interaction still needs a manual pass by Vikas.
 
 ## Next Backlog

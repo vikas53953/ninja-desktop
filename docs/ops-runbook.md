@@ -35,7 +35,7 @@ Copy-Item "$env:USERPROFILE\.ninja\NINJA-BRAIN.md" "$env:USERPROFILE\.ninja\NINJ
 |---|---|---|
 | App will not start | Missing dependencies | Run `npm install` |
 | Blank app window | Vite dev server not ready | Restart `npm run dev` |
-| No GPT response | Missing OpenAI key | Add `OPENAI_API_KEY` to `.env` |
+| No brain response | Missing OpenCode key | Add `OPENCODE_API_KEY` to `.env` and keep `LLM_PROVIDER=opencode` |
 | No voice output | Missing ElevenLabs settings | Add `ELEVEN_LABS_API_KEY` and `ELEVEN_LABS_VOICE_ID` |
 | Wake word disabled | Missing Porcupine key/dependency | Configure `PORCUPINE_ACCESS_KEY` and install binding |
 | RED tool blocked | Conscience layer working | Approve explicitly only when safe |

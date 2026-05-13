@@ -28,8 +28,8 @@ export default function ActivePanel({
 
       <section className="border-b border-white/10 px-4 py-3 text-xs text-emerald-100/70">
         <div className="flex justify-between">
-          <span>GPT-4o</span>
-          <span>{providerStatus.openai || "checking"}</span>
+          <span>Brain</span>
+          <span>{providerStatus.llm || "checking"}</span>
         </div>
         <div className="mt-1 flex justify-between">
           <span>Voice</span>
@@ -47,4 +47,3 @@ export default function ActivePanel({
     </main>
   );
 }
-

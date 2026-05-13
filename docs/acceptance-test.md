@@ -63,11 +63,11 @@ Status: PARTIAL
 What was tested:
 - `services/voice.js` implements Whisper STT and ElevenLabs TTS wrappers.
 - Added `npm run smoke:voice`.
-- Current `npm run smoke:voice` reports OpenAI/ElevenLabs/audio sample are missing, so live latency is not claimed.
+- Current `npm run smoke:voice` reaches OpenCode and ElevenLabs, but skips Whisper because no STT key/audio sample is configured.
 
 Result:
-- Code path exists.
-- Final PASS requires valid `.env` keys, `ELEVEN_LABS_VOICE_ID`, and `NINJA_VOICE_TEST_AUDIO`.
+- LLM + TTS path exists and was live-tested.
+- Final PASS requires an STT provider key and `NINJA_VOICE_TEST_AUDIO` for voice input.
 
 ### 6. Ask NINJA a question by typing -> answers by voice + text
 Status: PARTIAL
@@ -78,15 +78,15 @@ What was tested:
 - TTS wrapper is wired but requires ElevenLabs keys.
 
 Result:
-- Text answer path is implemented with fallback.
-- Voice output final PASS requires ElevenLabs keys and live playback smoke.
+- Text answer path is implemented through OpenCode.
+- Voice output is live-tested through ElevenLabs, but final user-facing playback still needs visible desktop smoke.
 
 ### 7. NINJA reads NINJA-BRAIN.md and uses context in responses
 Status: PASS
 
 What was tested:
 - Memory tests verify default `SOUL.md` and `NINJA-BRAIN.md` creation/read.
-- `askBrain()` injects SOUL and brain memory into GPT-4o request when key exists.
+- `askBrain()` injects SOUL and brain memory into the configured LLM provider request when key exists.
 
 Result:
 - Memory read path is implemented.
@@ -95,12 +95,12 @@ Result:
 Status: PASS
 
 What was tested:
-- `missingOpenAiResponse()` now appends a fallback conversation note.
-- GPT-4o success path appends a GPT response note.
+- `missingLlmResponse()` now appends a fallback conversation note.
+- LLM success path appends a provider/model response note.
 - Tests confirm fallback behavior.
 
 Result:
-- Conversation memory update exists for both fallback and GPT paths.
+- Conversation memory update exists for both fallback and configured-LLM paths.
 
 ### 9. At 7:00 AM IST -> Windows notification "Bhai, your brief is ready"
 Status: PASS
@@ -147,6 +147,6 @@ SHIP WITH KNOWN ISSUES for development review.
 
 Do not claim final Phase 1 complete until these live/manual checks pass:
 - Picovoice access key plus Windows `.ppn` for exact "Hey NINJA".
-- OpenAI and ElevenLabs keys with voice latency log under 3000ms.
+- OpenCode/ElevenLabs/STT keys with voice latency log under 3000ms.
 - Packaged NSIS install plus Windows Startup tab verification.
 - Manual always-on-top and deep-work desktop smoke.

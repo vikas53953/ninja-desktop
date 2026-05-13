@@ -9,12 +9,26 @@ dotenv.config({ path: path.join(process.cwd(), ".env") });
 async function measure(label, fn) {
   const startedAt = Date.now();
   const result = await fn();
-  return { label, durationMs: Date.now() - startedAt, result };
+  return { label, durationMs: Date.now() - startedAt, result: summarizeResult(result) };
+}
+
+function summarizeResult(result) {
+  if (!result || typeof result !== "object") return result;
+  const summary = { ...result };
+  if (summary.audioDataUrl) {
+    summary.audioDataUrlPresent = true;
+    summary.audioBytesApprox = Math.floor(String(summary.audioDataUrl).length * 0.75);
+    delete summary.audioDataUrl;
+  }
+  if (summary.reply && summary.reply.length > 240) summary.reply = `${summary.reply.slice(0, 240)}...`;
+  return summary;
 }
 
 async function main() {
   const report = {
     testedAt: new Date().toISOString(),
+    llmProvider: process.env.LLM_PROVIDER || (process.env.OPENCODE_API_KEY ? "opencode" : "openai"),
+    opencodeKeyPresent: Boolean(process.env.OPENCODE_API_KEY),
     openaiKeyPresent: Boolean(process.env.OPENAI_API_KEY),
     elevenLabsKeyPresent: Boolean(process.env.ELEVEN_LABS_API_KEY && process.env.ELEVEN_LABS_VOICE_ID),
     audioSamplePresent: Boolean(process.env.NINJA_VOICE_TEST_AUDIO && fs.existsSync(process.env.NINJA_VOICE_TEST_AUDIO)),
@@ -32,10 +46,10 @@ async function main() {
     report.steps.push({ label: "whisper", skipped: true, reason: "Set NINJA_VOICE_TEST_AUDIO to a short audio file." });
   }
 
-  if (report.openaiKeyPresent) {
-    report.steps.push(await measure("gpt-4o", () => askBrain("Reply in one short sentence: NINJA voice smoke.")));
+  if (report.opencodeKeyPresent || report.openaiKeyPresent) {
+    report.steps.push(await measure("llm", () => askBrain("Reply in one short sentence: NINJA voice smoke.")));
   } else {
-    report.steps.push({ label: "gpt-4o", skipped: true, reason: "OPENAI_API_KEY is missing." });
+    report.steps.push({ label: "llm", skipped: true, reason: "No LLM key is configured." });
   }
 
   if (report.elevenLabsKeyPresent) {

@@ -29,7 +29,7 @@ Acceptance:
 - Missing API keys produce honest fallback.
 - Whisper and ElevenLabs wrappers are callable when keys exist.
 
-Result: PASS WITH PROVIDER LIMITATION. Service wrappers and IPC are implemented; live OpenAI/ElevenLabs verification requires real keys in `.env`.
+Result: PARTIAL LIVE PASS. Service wrappers and IPC are implemented. OpenCode Go and ElevenLabs were live-smoked from local `.env`; Whisper STT still needs an audio sample and STT key for full voice input.
 
 ## M3: Tool Registry And Conscience
 Acceptance:
@@ -67,4 +67,4 @@ Acceptance:
 - Security greps and audit have no high/critical findings or are documented.
 - SHIP report is complete.
 
-Result: PARTIAL. README, docs, checks, and report exist. Real provider-key voice/GPT and native wake-word verification remain environment-dependent.
+Result: PARTIAL. README, docs, checks, and report exist. OpenCode/ElevenLabs live smoke is complete; full STT voice input, native wake-word verification, and manual desktop checks remain environment-dependent.
