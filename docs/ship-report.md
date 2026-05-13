@@ -24,7 +24,7 @@ Framework: SHIP Autopilot v3.0 by pylabmit
 ## Honest Assessment
 Genuinely works: Electron/React scaffold, ambient/active/deep-work UI, tray/hotkey wiring, memory files, GPT/voice wrappers, tool registry, conscience layer, morning scheduler, tests, build, secret smoke, audit, renderer smoke, Electron start smoke, and `npm run dev` smoke on port 5187.
 
-Mock/fallback: GPT-4o, Whisper, and ElevenLabs return honest missing-key/provider errors until `.env` has valid keys. Screenshot capture returns an honest unsupported result. Wake word uses real Porcupine wiring when configured, but exact "Hey NINJA" needs a Picovoice Console Windows `.ppn`; otherwise the built-in fallback keyword is `COMPUTER`.
+Mock/fallback: GPT-4o, Whisper, and ElevenLabs return honest missing-key/provider errors until `.env` has valid keys. Wake word uses real Porcupine wiring when configured, but exact "Hey NINJA" needs a Picovoice Console Windows `.ppn`; otherwise the built-in fallback keyword is `COMPUTER`.
 
 Needs fixing: live provider-key verification, visible Alt+N/manual desktop smoke, and native Porcupine "Hey NINJA" streaming.
 

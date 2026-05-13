@@ -47,4 +47,4 @@ NINJA creates and reads:
 ## Honest Limitations
 - If provider keys are missing, NINJA shows an honest fallback instead of fake GPT or voice output.
 - Porcupine wake-word startup uses the real Node binding when `PORCUPINE_ACCESS_KEY` is configured. For the exact phrase "Hey NINJA", add a Picovoice Console Windows `.ppn` file path in `NINJA_WAKEWORD_KEYWORD_PATH`; otherwise the built-in fallback keyword is `COMPUTER`.
-- Screenshot capture is stubbed with an honest limitation until the native desktop permission path is finished.
+- Screenshot capture uses Electron `desktopCapturer` and saves PNG files under `%USERPROFILE%\.ninja\screenshots`.

@@ -23,4 +23,4 @@ Status: IN PROGRESS
 ## 2026-05-13 Honest Limitations
 - GPT-4o, Whisper, and ElevenLabs calls are implemented but require valid `.env` keys for live provider verification.
 - Wake-word service uses `@picovoice/porcupine-node` plus `@picovoice/pvrecorder-node` when configured. Exact "Hey NINJA" detection still requires a Picovoice Console Windows `.ppn` keyword file via `NINJA_WAKEWORD_KEYWORD_PATH`; without it, the fallback built-in keyword is `COMPUTER`.
-- Screenshot tool returns an honest unsupported result in this scaffold until native desktop capture is implemented.
+- Screenshot tool uses Electron `desktopCapturer` and saves PNG files to `%USERPROFILE%\.ninja\screenshots`.
