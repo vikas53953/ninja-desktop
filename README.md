@@ -52,7 +52,22 @@ NINJA creates and reads:
 npx playwright install chromium
 ```
 
-## Honest Limitations
-- If provider keys are missing, NINJA shows an honest fallback instead of fake GPT or voice output.
-- Porcupine wake-word startup uses the real Node binding when `PORCUPINE_ACCESS_KEY` is configured. For the exact phrase "Hey NINJA", add a Picovoice Console Windows `.ppn` file path in `NINJA_WAKEWORD_KEYWORD_PATH`; otherwise the built-in fallback keyword is `COMPUTER`.
-- Screenshot capture uses Electron `desktopCapturer` and saves PNG files under `%USERPROFILE%\.ninja\screenshots`.
+## Phase 1 Current Status
+| Feature | Current status |
+|---|---|
+| Electron shell | Built and smoke-tested with `npm run dev` on port 5187. |
+| System tray | Built with open, ambient, deep-work demo, startup toggle, and quit actions. |
+| Ambient widget | Built with topmost enforcement; final pass still needs manual desktop app-switch verification. |
+| Alt+N hotkey | Wired through Electron `globalShortcut`. |
+| Wake word | Real Porcupine/PvRecorder runtime is wired. Exact "Hey NINJA" requires a Picovoice Windows `.ppn` file in `NINJA_WAKEWORD_KEYWORD_PATH`; fallback keyword is `COMPUTER`. |
+| Voice input | Whisper wrapper is wired; live pass requires `OPENAI_API_KEY` and an audio sample for `npm run smoke:voice`. |
+| Voice output | ElevenLabs wrapper is wired; live playback requires `ELEVEN_LABS_API_KEY` and `ELEVEN_LABS_VOICE_ID`. |
+| GPT-4o brain | Wired through OpenAI when `OPENAI_API_KEY` exists; otherwise returns an honest missing-key fallback. |
+| Memory | Reads and updates `%USERPROFILE%\.ninja\NINJA-BRAIN.md`. |
+| Tool registry | Includes memory, web search, browser, file read/write, shell command guard, notifications, screenshot, and speak. |
+| Screenshot tool | Uses Electron `desktopCapturer` and saves PNG files under `%USERPROFILE%\.ninja\screenshots`. |
+| Browser tool | Uses Playwright headless Chromium to return URL, title, and text preview for HTTP(S) pages. |
+| Conscience layer | GREEN/YELLOW/RED checks are unit-tested; RED shell commands require confirmation. |
+| Autonomous loop | 7 AM IST morning brief and 10 PM IST CISSP notification schedules are implemented and testable with `NINJA_CRON_TEST=true`. |
+| Deep work mode | UI and tray-triggered demo are built; final pass still needs manual desktop verification. |
+| Windows startup | Packaged builds use Electron `app.setLoginItemSettings()` with tray enable/disable toggle; final pass requires installed-package verification in Windows Startup. |
