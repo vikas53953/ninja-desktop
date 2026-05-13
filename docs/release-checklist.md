@@ -13,5 +13,9 @@ Date: 2026-05-13
 - [x] Known limitations are documented honestly.
 - [x] Windows desktop smoke completed with `npm start`.
 - [x] `npm run dev` smoke completed on port 5187.
+- [x] Claude gap analysis response documented.
+- [x] Acceptance test document covers all 11 Phase 1 criteria.
 - [ ] Live GPT/Whisper/ElevenLabs verification completed with real keys.
 - [ ] Native Porcupine "Hey NINJA" verification completed.
+- [ ] Packaged installer startup verification completed.
+- [ ] Manual always-on-top desktop verification completed.

@@ -16,8 +16,8 @@ Framework: SHIP Autopilot v3.0 by pylabmit
 | G5 Security & Privacy | PASS | `docs/threat-model.md` |
 | G6 Build Milestones | PARTIAL | M1-M4 and M6 pass; M5 wake-word native path partial |
 | G7 Test Strategy | PASS | `npm test`, build, secret smoke, audit, renderer smoke, Electron smoke |
-| G8 Release Readiness | PARTIAL | runnable scaffold passes; live provider/wake-word verification pending keys/native setup |
-| G9 Customer Acceptance | PARTIAL | `docs/acceptance-test.md` |
+| G8 Release Readiness | PARTIAL | runnable scaffold and v3 fixes pass; live provider/wake-word/installer/manual checks pending |
+| G9 Customer Acceptance | PARTIAL | all 11 criteria documented in `docs/acceptance-test.md`; 5 pass, 6 partial |
 | G10 Operations | PARTIAL | `docs/ops-runbook.md` |
 | G11 Post-Ship Review | PARTIAL | `docs/post-ship-review.md` pending |
 
@@ -31,4 +31,4 @@ Needs fixing: live provider-key voice verification via `npm run smoke:voice`, ma
 API status: OpenAI/ElevenLabs/Brave/Bing not live-verified because no API keys were provided in this repo.
 
 ## Ship Decision
-SHIP WITH KNOWN ISSUES for local scaffold testing. DO NOT claim full Phase 1 voice/wake-word completion until provider keys and Porcupine native setup are verified.
+SHIP WITH KNOWN ISSUES for development review. DO NOT claim final Phase 1 complete until provider keys, exact Porcupine `.ppn`, packaged startup, and manual desktop smoke are verified.
