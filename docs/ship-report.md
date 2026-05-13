@@ -26,7 +26,7 @@ Genuinely works: Electron/React scaffold, ambient/active/deep-work UI, tray/hotk
 
 Mock/fallback: GPT-4o, Whisper, and ElevenLabs return honest missing-key/provider errors until `.env` has valid keys. Wake word uses real Porcupine wiring when configured, but exact "Hey NINJA" needs a Picovoice Console Windows `.ppn`; otherwise the built-in fallback keyword is `COMPUTER`.
 
-Needs fixing: live provider-key verification, manual always-on-top desktop app-switch smoke, visible Alt+N/manual desktop smoke, and native Porcupine "Hey NINJA" `.ppn` verification.
+Needs fixing: live provider-key voice verification via `npm run smoke:voice`, manual always-on-top desktop app-switch smoke, visible Alt+N/manual desktop smoke, and native Porcupine "Hey NINJA" `.ppn` verification.
 
 API status: OpenAI/ElevenLabs/Brave/Bing not live-verified because no API keys were provided in this repo.
 

@@ -22,6 +22,7 @@ Status: IN PROGRESS
 - Startup entry behavior: implemented via Electron `app.setLoginItemSettings()` for packaged Windows builds, with tray enable/disable toggle. Dev mode intentionally reports `development_only` unless `NINJA_ALLOW_DEV_STARTUP=true`.
 - Ambient always-on-top behavior: Electron window config includes `frame:false`, `transparent:true`, `skipTaskbar:true`, and topmost enforcement via `setAlwaysOnTop(true, "screen-saver", 1)`, `setVisibleOnAllWorkspaces`, and `moveTop()` on create/mode changes/ambient blur. Manual app-switch visibility still needs a human desktop pass.
 - NINJA-LOG behavior: every `executeTool()` result appends a redacted entry to `%USERPROFILE%\.ninja\NINJA-LOG.md` with tool name, params, result summary, and duration; tests cover append, redaction, and 500-entry trimming.
+- Voice pipeline verification: added `npm run smoke:voice` and `docs/voice-test-log.md`. Live latency PASS is blocked until local `.env` contains OpenAI/ElevenLabs keys and `NINJA_VOICE_TEST_AUDIO` points to a short audio sample.
 
 ## 2026-05-13 Honest Limitations
 - GPT-4o, Whisper, and ElevenLabs calls are implemented but require valid `.env` keys for live provider verification.
