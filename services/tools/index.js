@@ -8,6 +8,7 @@ const { webSearch } = require("./webSearch");
 const { openBrowser } = require("./browser");
 const { takeScreenshot } = require("./screenshot");
 const { synthesizeSpeech } = require("../voice");
+const { appendToolLog } = require("../toolLog");
 
 const execFileAsync = promisify(execFile);
 
@@ -35,14 +36,22 @@ const TOOL_EXECUTORS = {
 };
 
 async function executeTool(toolName, params = {}, context = {}) {
+  const startedAt = Date.now();
   const executor = TOOL_EXECUTORS[toolName];
-  if (!executor) return { ok: false, toolName, status: "failed", error: "Unknown tool." };
+  if (!executor) {
+    const result = { ok: false, toolName, status: "failed", error: "Unknown tool." };
+    appendToolLog({ toolName, params, result, durationMs: Date.now() - startedAt });
+    return result;
+  }
   try {
-    return conscienceCheck(toolName, params, () => executor(params, context), context);
+    const result = await conscienceCheck(toolName, params, () => executor(params, context), context);
+    appendToolLog({ toolName, params, result, durationMs: Date.now() - startedAt });
+    return result;
   } catch (_error) {
-    return { ok: false, toolName, status: "failed", error: "Tool execution failed." };
+    const result = { ok: false, toolName, status: "failed", error: "Tool execution failed." };
+    appendToolLog({ toolName, params, result, durationMs: Date.now() - startedAt });
+    return result;
   }
 }
 
 module.exports = { TOOL_EXECUTORS, executeTool };
-
