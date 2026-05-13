@@ -22,7 +22,7 @@ Framework: SHIP Autopilot v3.0 by pylabmit
 | G11 Post-Ship Review | PARTIAL | `docs/post-ship-review.md` pending |
 
 ## Honest Assessment
-Genuinely works: Electron/React scaffold, ambient/active/deep-work UI, tray/hotkey wiring, memory files, GPT/voice wrappers, tool registry, conscience layer, morning scheduler, tests, build, secret smoke, audit, renderer smoke, Electron start smoke, and `npm run dev` smoke on port 5187.
+Genuinely works: Electron/React scaffold, ambient/active/deep-work UI, tray/hotkey wiring, packaged Windows startup registration code with tray toggle, memory files, GPT/voice wrappers, tool registry, conscience layer, morning scheduler, tests, build, secret smoke, audit, renderer smoke, Electron start smoke, and `npm run dev` smoke on port 5187.
 
 Mock/fallback: GPT-4o, Whisper, and ElevenLabs return honest missing-key/provider errors until `.env` has valid keys. Wake word uses real Porcupine wiring when configured, but exact "Hey NINJA" needs a Picovoice Console Windows `.ppn`; otherwise the built-in fallback keyword is `COMPUTER`.
 

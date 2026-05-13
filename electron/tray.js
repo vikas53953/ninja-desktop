@@ -1,6 +1,6 @@
 const { Menu, Tray, nativeImage } = require("electron");
 
-function createTray({ onActive, onAmbient, onDeepWork, onQuit }) {
+function createTray({ onActive, onAmbient, onDeepWork, onToggleStartup, getStartupEnabled, onQuit }) {
   const svg = encodeURIComponent(`
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
       <rect width="32" height="32" rx="8" fill="#08110F"/>
@@ -14,18 +14,25 @@ function createTray({ onActive, onAmbient, onDeepWork, onQuit }) {
   const tray = new Tray(image.resize({ width: 16, height: 16 }));
 
   tray.setToolTip("NINJA");
-  tray.setContextMenu(
+  const buildMenu = () =>
     Menu.buildFromTemplate([
       { label: "Open NINJA", click: onActive },
       { label: "Ambient Mode", click: onAmbient },
       { label: "Deep Work Demo", click: onDeepWork },
+      {
+        label: getStartupEnabled && getStartupEnabled() ? "Disable startup" : "Enable startup",
+        click: () => {
+          if (onToggleStartup) onToggleStartup();
+          tray.setContextMenu(buildMenu());
+        }
+      },
       { type: "separator" },
       { label: "Quit", click: onQuit }
-    ])
-  );
+    ]);
+
+  tray.setContextMenu(buildMenu());
   tray.on("click", onActive);
   return tray;
 }
 
 module.exports = { createTray };
-

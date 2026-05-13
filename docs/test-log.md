@@ -19,6 +19,7 @@ Status: IN PROGRESS
 - Renderer smoke on port 5187: PASS, `GET /` returned 200 and included `<title>NINJA</title>` plus `id="root"`. Repo dev config was moved to 5187 so `npm run dev` does not collide with the existing 5173 process.
 - Electron production smoke with `npm start`: PASS, process stayed running for 10 seconds without main-process crash, then was stopped intentionally.
 - Full dev smoke with `npm run dev`: PASS, Vite served `http://127.0.0.1:5187`, `GET /` returned 200 with NINJA title, and the combined Vite/Electron process stayed running until intentionally stopped.
+- Startup entry behavior: implemented via Electron `app.setLoginItemSettings()` for packaged Windows builds, with tray enable/disable toggle. Dev mode intentionally reports `development_only` unless `NINJA_ALLOW_DEV_STARTUP=true`.
 
 ## 2026-05-13 Honest Limitations
 - GPT-4o, Whisper, and ElevenLabs calls are implemented but require valid `.env` keys for live provider verification.

@@ -133,18 +133,25 @@ function registerIpc() {
   });
 }
 
-function configureStartup() {
+function setStartupEnabled(openAtLogin) {
   if (process.platform !== "win32") return "not_windows";
+  if (!app.isPackaged && process.env.NINJA_ALLOW_DEV_STARTUP !== "true") {
+    return "development_only";
+  }
+
   try {
     app.setLoginItemSettings({
-      openAtLogin: true,
-      path: process.execPath,
-      args: app.isPackaged ? [] : [process.argv[1]].filter(Boolean)
+      openAtLogin,
+      path: process.execPath
     });
     return app.getLoginItemSettings().openAtLogin ? "enabled" : "disabled";
   } catch (_error) {
     return "failed";
   }
+}
+
+function configureStartup() {
+  return setStartupEnabled(true);
 }
 
 app.whenReady().then(async () => {
@@ -159,6 +166,11 @@ app.whenReady().then(async () => {
     onDeepWork: () => {
       applyMode("deep-work");
       if (mainWindow) mainWindow.webContents.send("ninja:deep-work-demo");
+    },
+    getStartupEnabled: () => startupStatus === "enabled",
+    onToggleStartup: () => {
+      startupStatus = setStartupEnabled(startupStatus !== "enabled");
+      if (mainWindow) mainWindow.webContents.send("ninja:mode-changed", { mode, providerStatus: providerStatus() });
     },
     onQuit: () => app.quit()
   });

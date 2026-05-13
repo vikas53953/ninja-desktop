@@ -25,6 +25,7 @@ npm run dev
 ```
 
 Alt+N toggles the active panel. The tray menu also opens NINJA, returns to ambient mode, and starts a deep-work demo.
+Packaged Windows builds enable startup through Electron `app.setLoginItemSettings()`. Dev mode does not change Windows startup unless `NINJA_ALLOW_DEV_STARTUP=true` is set.
 
 The dev renderer binds to `http://127.0.0.1:5187` because port 5173 was already occupied on this Windows machine during SHIP verification.
 
